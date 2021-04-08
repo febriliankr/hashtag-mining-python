@@ -2,9 +2,7 @@ import tweepy
 import csv
 import pandas as pd
 import re
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
+from decouple import config
 
 # using Regular Expression (re) to strip out the emojis
 RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
@@ -14,13 +12,14 @@ def strip_emoji(text):
     return RE_EMOJI.sub(r'', text)
 
 
+API_KEY = config('API_KEY')
+API_KEY_SECRET = config('API_KEY_SECRET')
+ACCESS_TOKEN = config('ACCESS_TOKEN')
+ACCESS_TOKEN_SECRET = config('ACCESS_TOKEN_SECRET')
+
 # Authenticate to Twitter
-auth = tweepy.OAuthHandler(
-    "k1MxRDsdaOJxkAvk4hi1Udxro",
-    "TKmTdCg50CS4TXLticIxMc5PVSkm9TsCdSqnCszPOjHuDR4c94")
-    
-auth.set_access_token("321365430-SEEjSZOGgLMsY9hPBdvEZEraQOzMrF5INAh6IzXH",
-                      "2B7Yc4fLk9rx2vEmKzrR1V0bXHQq49eUX361ESYebqmL3")
+auth = tweepy.OAuthHandler(API_KEY, API_KEY_SECRET)
+auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 api = tweepy.API(auth)
 
@@ -33,7 +32,8 @@ except:
 # Gather Input
 search_keyword = input("search keyword? ")
 search_limit = int(input("search limit amount? "))
-print("searching: '" + search_keyword + " (limit: " + str(search_limit) + ") '\n")
+print("searching: '" + search_keyword +
+      " (limit: " + str(search_limit) + ") '\n")
 
 csvFile = open(search_keyword+'.csv', 'a+', newline='', encoding="utf-8")
 
