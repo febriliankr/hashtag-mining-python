@@ -2,6 +2,12 @@
 
 searches through a string, strips the emoji, and convert it to csv
 
-![image info](./assets/images/example-1-csv.png)
+## Stripping Down The Emoji
 
-![image info](./assets/images/example-1-original-tweet.png)
+![original tweet](./assets/images/example-1-original-tweet.png)
+
+The original tweet
+
+![csv entry](./assets/images/example-1-csv.png)
+
+Stripped out from its emoji in csv
