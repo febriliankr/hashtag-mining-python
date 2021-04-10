@@ -1,21 +1,11 @@
 import tweepy
 import csv
 import pandas as pd
-import re
-from decouple import config
 
-# using Regular Expression (re) to strip out the emojis
-RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
-
-
-def strip_emoji(text):
-    return RE_EMOJI.sub(r'', text)
-
-
-API_KEY = config('API_KEY')
-API_KEY_SECRET = config('API_KEY_SECRET')
-ACCESS_TOKEN = config('ACCESS_TOKEN')
-ACCESS_TOKEN_SECRET = config('ACCESS_TOKEN_SECRET')
+API_KEY = "k1MxRDsdaOJxkAvk4hi1Udxro"
+API_KEY_SECRET = "TKmTdCg50CS4TXLticIxMc5PVSkm9TsCdSqnCszPOjHuDR4c94"
+ACCESS_TOKEN = "321365430-SEEjSZOGgLMsY9hPBdvEZEraQOzMrF5INAh6IzXH"
+ACCESS_TOKEN_SECRET = "2B7Yc4fLk9rx2vEmKzrR1V0bXHQq49eUX361ESYebqmL3"
 
 # Authenticate to Twitter
 auth = tweepy.OAuthHandler(API_KEY, API_KEY_SECRET)
@@ -31,8 +21,8 @@ except:
     print("Error during authentication")
 
 # Gather Input
-search_keyword = 'FSM UKSW'  # input("Search keyword [type any string]: ")
-search_limit = 25  # int(input("Search limit amount [type any number]: "))
+search_keyword = "bitcoin"
+search_limit = 100
 print("searching: '" + search_keyword +
       " (limit: " + str(search_limit) + ")'")
 
@@ -45,14 +35,14 @@ id_twitter = []
 username = []
 text = []
 
-for tweet in tweepy.Cursor(api.search, q=search_keyword, count=300, lang='id', fromDate="2020-01-01", tweet_mode="extended").items(search_limit):
+for tweet in tweepy.Cursor(api.search, q=search_keyword, count=300, lang='id', result_type="latest",  fromDate="2020-01-01", tweet_mode="extended").items(search_limit):
     print(tweet.created_at,  tweet.id, tweet.user.name, tweet.text)
     created.append(tweet.created_at)
     id_twitter.append(tweet.id)
     username.append(tweet.user.name)
-    text.append(strip_emoji(tweet.text))
+    text.append(tweet.text)
     tweets = [tweet.created_at, tweet.id,
-              tweet.user.name, strip_emoji(tweet.text)]
+              tweet.user.name, tweet.text]
     csvWriter.writerow(tweets)
 
 dictTweets = {"timestamp": created, "id_twitter": id_twitter,
